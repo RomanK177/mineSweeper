@@ -125,7 +125,7 @@ function cellMarked(elCell, i, j) {
 
 function randomMines(cellI, cellJ) {
     var minesCount = 0
-    while (minesCount <= gLevel.size) {
+    while (minesCount < gLevel.mines) {
         var mineRow = getRandomIntInclusive(0, gLevel.size - 1)
         var mineCel = getRandomIntInclusive(0, gLevel.size - 1)
         if (cellI != mineRow && cellJ != mineCel) {
