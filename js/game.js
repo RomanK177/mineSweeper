@@ -3,9 +3,10 @@
 const MINE = '&#9760'
 const MARK = '&#9873'
 
+var gStartTime;
 var gBoard;
 var gGameInterval;
-var gIsGameOn = {
+var gGame = {
     isOn: false,
     shownCount: 0,
     markedCount: 0,
@@ -18,14 +19,7 @@ var gLevel = {
 
 function initGame() {
     gBoard = buildBoard();
-    //Step1 - Place 2 mines
-    // gBoard[1][1].isMine = true
-    // gBoard[2][2].isMine = true
-    randomMines()
-        //Recheck if needed here:
-    setMinesNegsCount(gBoard)
     renderBoard(gBoard)
-    gIsGameOn = true;
     if (gGameInterval) clearInterval(gGameInterval)
         // gGameInterval = setInterval(ADD TIMER FUNCTION);
 
@@ -110,6 +104,13 @@ function countMines(cellI, cellJ, mat) {
 }
 
 function cellClicked(elCell, i, j) {
+    if (!gGame.isOn) {
+        gGame.isOn = true
+        gStartTime = Date.now()
+        gGameInterval = setInterval(updateTimer, 1)
+        randomMines(i, j)
+        setMinesNegsCount(gBoard)
+    }
     if (gBoard[i][j].isMarked) return;
     gBoard[i][j].isShown = true
     if (gBoard[i][j].minesAroundCount === 0) revealNegs(i, j, gBoard)
@@ -122,19 +123,19 @@ function cellMarked(elCell, i, j) {
     renderBoard(gBoard)
 }
 
-function randomMines() {
-    for (var i = 1; i <= gLevel.mines; i++) {
-        var row = getRandomIntInclusive(0, gLevel.size - 1)
-        var col = getRandomIntInclusive(0, gLevel.size - 1)
-        gBoard[row][col].isMine = true
+function randomMines(cellI, cellJ) {
+    var minesCount = 0
+    while (minesCount <= gLevel.size) {
+        var mineRow = getRandomIntInclusive(0, gLevel.size - 1)
+        var mineCel = getRandomIntInclusive(0, gLevel.size - 1)
+        if (cellI != mineRow && cellJ != mineCel) {
+            gBoard[mineRow][mineCel].isMine = true
+            minesCount++
+        }
     }
+
 }
 
-function getRandomIntInclusive(min, max) {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min + 1) + min);
-}
 
 function revealNegs(cellI, cellJ, mat) {
     for (var i = cellI - 1; i <= cellI + 1; i++) {
@@ -145,5 +146,20 @@ function revealNegs(cellI, cellJ, mat) {
             mat[i][j].isShown = true
                 // if (mat[i][j].minesAroundCount === 0 && mat[i][j].isShown === false) revealNegs(i, j, mat);
         }
+    }
+}
+
+function getRandomIntInclusive(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
+function updateTimer() {
+    var time = ((Date.now() - gStartTime).toFixed(1)) / 1000
+    document.querySelector(".timer").innerText = +time + " Sec"
+    if (ifOver() === true) {
+        clearInterval(gTimerInterval)
+        alert('Good Job!!!')
     }
 }
