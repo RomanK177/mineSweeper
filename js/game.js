@@ -1,11 +1,9 @@
 'use strict';
 
-const MINE = 'MINE'
 const MARK = '&#9873'
 const NORMAL = '😀'
 const DEAD = '🤯'
 const WON = '🤩'
-
 const MINE_IMG = '<img src="img/images.jfif" style="height: 15px;" />';
 
 var gStartTime;
@@ -44,7 +42,6 @@ function initGame() {
 }
 
 function buildBoard() {
-    //According dificulty
     var boardSize = gLevel.size
 
     var board = [];
@@ -71,7 +68,6 @@ function renderBoard(board) {
             var cell = row[j];
             var className = ''
             className = (cell.isShown) ? className += 'shown' : className += 'hidden';
-            // console.log(className)
             strHTML += `<td onclick="cellClicked(this, ${i}, ${j})" 
                             oncontextmenu="cellMarked(${i}, ${j})"
                             class="${className}">`;
@@ -86,7 +82,6 @@ function renderBoard(board) {
             strHTML += '</td>';
         }
         strHTML += '</tr>';
-        // console.log(strHTML)
     }
     var elTable = document.querySelector('.board');
     elTable.innerHTML = strHTML;
@@ -94,7 +89,7 @@ function renderBoard(board) {
 
 function setMinesNegsCount(board) {
     for (var i = 0; i < board.length; i++) {
-        for (var j = 0; j < board.length; j++) { //the matrix is symmetrical
+        for (var j = 0; j < board.length; j++) {
             gBoard[i][j].minesAroundCount = countMines(i, j, board)
         }
     }
@@ -133,11 +128,12 @@ function cellClicked(elCell, cellI, cellJ) {
     }
     gBoard[cellI][cellJ].isShown = true
     gGame.shownCount++
-        if (gBoard[cellI][cellJ].minesAroundCount === 0) revealNegs(cellI, cellJ, gBoard, elCell)
+        if (gBoard[cellI][cellJ].minesAroundCount === 0) revealNegs(cellI, cellJ, gBoard)
     checkGameWon()
     renderBoard(gBoard)
-    console.log(gGame)
 }
+//Later I will refactor the code to render only clicked cell and not all board
+//Thus I left the elCell parametrs
 
 function cellMarked(i, j) {
     if (!gGame.isOn) return
