@@ -1,9 +1,23 @@
-.board td {
-    width: 60px;
-    height: 60px;
+body {
     text-align: center;
-    font-size: 50px;
+    background: rgb(9, 121, 31);
+    background: radial-gradient(circle, rgba(9, 121, 31, 0.7987570028011204) 27%, rgba(0, 212, 255, 1) 66%, rgba(2, 0, 36, 1) 94%);
+    position: relative;
+}
+
+.board td {
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    font-size: 25px;
     transition: .5s;
+}
+
+table {
+    margin-left: auto;
+    margin-right: auto;
+    border-color: rgb(22, 35, 153);
+    border-width: 6px;
 }
 
 .board td:hover {
@@ -18,7 +32,69 @@
     background-color: rgb(235, 235, 135);
 }
 
+.info h3 {
+    width: 150px;
+    margin: auto;
+    display: inline-block;
+    border: solid;
+    border-color: rgb(142, 11, 182);
+    color: rgb(236, 203, 14);
+}
 
-/* h1 {
+.status {
+    height: 50px;
+    width: 50px;
     text-align: center;
-} */
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 35px;
+    margin: 15px;
+}
+
+.status:hover {
+    cursor: pointer;
+}
+
+.game-over {
+    background-color: brown;
+    width: 200px;
+    height: 100px;
+    display: none;
+    padding-bottom: 30px;
+    border-radius: 15%;
+    opacity: 0.8;
+    margin: auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}
+
+button:hover {
+    cursor: pointer;
+}
+
+.game-won {
+    background-color: green;
+    width: 250px;
+    height: 100px;
+    display: none;
+    padding-bottom: 30px;
+    border-radius: 15%;
+    opacity: 0.8;
+    margin: auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}
+
+.difficulty {
+    margin: 10px;
+}
+
+.board image {
+    image-resolution: 35px;
+}
